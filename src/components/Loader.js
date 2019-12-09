@@ -1,7 +1,5 @@
 import React from "react";
 
-const Loader = ({ loading }) => {
-  return <div className="ui active centered inline loader"></div>;
-};
+const Loader = () => <div className="ui active inline loader"></div>;
 
 export default Loader;

@@ -4,12 +4,14 @@ import { Redirect } from "react-router-dom";
 import PostItem from "./PostItem";
 import AddForm from "./AddForm";
 import Page404 from "./Page404";
+import Loader from "./Loader";
 
 class ViewPostPage extends React.Component {
   state = {
     post: null,
     deleted: false,
-    editing: false
+    editing: false,
+    loading: true
   };
 
   componentDidMount() {
@@ -19,7 +21,7 @@ class ViewPostPage extends React.Component {
     const id = Number(params.id);
     axios.get(`${process.env.REACT_APP_POSTS_URL}/posts`).then(response => {
       const post = response.data.find(item => item.id === id);
-      this.setState({ post });
+      this.setState({ post, loading: false });
     });
   }
 
@@ -55,11 +57,7 @@ class ViewPostPage extends React.Component {
   };
 
   render() {
-    const { post, deleted, editing } = this.state;
-
-    if (!post) {
-      return <Page404 />;
-    }
+    const { post, deleted, editing, loading } = this.state;
 
     if (deleted) {
       return <Redirect to="/" />;
@@ -69,19 +67,26 @@ class ViewPostPage extends React.Component {
       return <AddForm content={post.content} onSubmit={this.handleEdit} />;
     }
 
+    if (post === undefined) {
+      return <Page404 />;
+    }
+
+    if (loading) {
+      return <Loader />;
+    }
+
+    console.log(this.state);
     return (
-      <>
-        <div className="ui comments">
-          <PostItem {...post}>
-            <button className="reply" onClick={this.toggleEditing}>
-              Edit
-            </button>
-            <button className="reply" onClick={this.handleDelete}>
-              Delete
-            </button>
-          </PostItem>
-        </div>
-      </>
+      <div className="ui comments">
+        <PostItem {...post}>
+          <button className="reply" onClick={this.toggleEditing}>
+            Изменить
+          </button>
+          <button className="reply" onClick={this.handleDelete}>
+            Удалить
+          </button>
+        </PostItem>
+      </div>
     );
   }
 }

@@ -5,11 +5,13 @@ import moment from "moment";
 const PostItem = ({ id, content, created, children }) => {
   return (
     <div className="comment">
-      <a className="avatar">
-        <img src={faker.image.avatar()} />
-      </a>
+      <div className="avatar">
+        <img src={faker.image.avatar()} alt="avatar" />
+      </div>
       <div className="content">
-        <a className="author">{faker.name.firstName()}</a>
+        <span href="#" className="author">
+          {faker.name.firstName()}
+        </span>
         <div className="metadata">
           <span className="date">
             {moment(created).format("DD.MM.YYYY HH:mm:ss")}

@@ -1,17 +1,19 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import PostItem from "./PostItem";
+import Loader from "./Loader";
 
 class PostsList extends React.Component {
   state = {
-    posts: []
+    posts: [],
+    loading: true
   };
   componentDidMount() {
     this.getPosts();
   }
   setData = posts => {
-    this.setState({ posts });
+    this.setState({ posts, loading: false });
   };
   getPosts = () => {
     axios
@@ -20,7 +22,12 @@ class PostsList extends React.Component {
   };
 
   render() {
-    const { posts } = this.state;
+    const { posts, loading } = this.state;
+
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <div className="ui comments">
         {posts.map(post => (
