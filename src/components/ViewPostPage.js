@@ -32,6 +32,7 @@ class ViewPostPage extends React.Component {
   };
 
   handleDelete = () => {
+    this.setState({ loading: true });
     const {
       match: { params }
     } = this.props;
@@ -64,7 +65,16 @@ class ViewPostPage extends React.Component {
     }
 
     if (editing) {
-      return <AddForm content={post.content} onSubmit={this.handleEdit} />;
+      return (
+        <AddForm content={post.content} onSubmit={this.handleEdit}>
+          <div
+            className="ui primary button"
+            onClick={() => this.toggleEditing()}
+          >
+            Отмена
+          </div>
+        </AddForm>
+      );
     }
 
     if (post === undefined) {

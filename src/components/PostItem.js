@@ -2,7 +2,7 @@ import React from "react";
 import faker from "faker";
 import moment from "moment";
 
-const PostItem = ({ id, content, created, children }) => {
+const PostItem = ({ content, created, children }) => {
   return (
     <div className="comment">
       <div className="avatar">

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import Loader from "./Loader";
 
-const AddForm = ({ content, onSubmit }) => {
+const AddForm = ({ content, onSubmit, children }) => {
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (content) {
@@ -10,6 +12,7 @@ const AddForm = ({ content, onSubmit }) => {
   }, [content]);
 
   const handleSubmit = event => {
+    setLoading(true);
     event.preventDefault();
     onSubmit(value);
   };
@@ -19,6 +22,10 @@ const AddForm = ({ content, onSubmit }) => {
 
     setValue(value);
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <form className="ui reply form">
@@ -31,6 +38,7 @@ const AddForm = ({ content, onSubmit }) => {
       >
         <i className="icon edit"></i> Отправить
       </div>
+      {children}
     </form>
   );
 };
